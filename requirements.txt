@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-flask
-opencv-python
-numpy
-pillow
-werkzeug
-=======
-flask
-opencv-python
-numpy
-pillow
-werkzeug
->>>>>>> 0764b31 (share)
 dlib
+flask
+opencv-python
+numpy
+pillow
+werkzeug
+
