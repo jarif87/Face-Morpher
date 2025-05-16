@@ -20,9 +20,10 @@ A Flask-based web app that swaps faces between two uploaded images using OpenCV 
 
 1. **Clone or download the project:**
 
-```bash
+```
 git clone <repository-url>
 cd face-swap-app
+```
 
 2. **Create and activate a virtual environment:**
 
@@ -46,9 +47,9 @@ sudo apt-get install build-essential cmake libopenblas-dev liblapack-dev libx11-
 
 5. **On Windows, install Visual Studio Build Tools or use a precompiled dlib wheel.**
 
-```
-Set up directories:
-```
+
+### Set up directories:
+
 - Add required files:
 
 - Place shape_predictor_68_face_landmarks.dat in static/dat/.
