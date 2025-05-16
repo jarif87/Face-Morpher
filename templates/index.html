@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Swap App</title>
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-wrapper container">
+      <a class="brand-logo center">Face Swap App</a>
+      <ul class="right">
+        <li>Made by Sadik Al Jarif</li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <form action="/" method="post" enctype="multipart/form-data" id="upload-form">
+        <!-- Source Image Card -->
+        <div class="col s12 m4">
+          <div class="card image-card">
+            <div class="card-content">
+              <span class="card-title">Source Image</span>
+              <div class="image-preview center">
+                <img id="source-preview" src="{{ url_for('static', filename=source) }}" alt="Source Image" class="responsive-img">
+              </div>
+              <div class="file-field input-field">
+                <div class="btn btn-custom">
+                  <span>Browse</span>
+                  <input type="file" name="source_image" id="source_image" accept="image/*">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Select source image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destination Image Card -->
+        <div class="col s12 m4">
+          <div class="card image-card">
+            <div class="card-content">
+              <span class="card-title">Destination Image</span>
+              <div class="image-preview center">
+                <img id="destination-preview" src="{{ url_for('static', filename=destination) }}" alt="Destination Image" class="responsive-img">
+              </div>
+              <div class="file-field input-field">
+                <div class="btn btn-custom">
+                  <span>Browse</span>
+                  <input type="file" name="destination_image" id="destination_image" accept="image/*">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Select destination image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result Image Card -->
+        <div class="col s12 m4">
+          <div class="card result-card">
+            <div class="card-content center">
+              <span class="card-title">Swapped Result</span>
+              <div class="image-preview center">
+                <img src="{{ url_for('static', filename=result) }}" alt="Result Image" class="responsive-img result-image">
+              </div>
+              <div class="center">
+                <button type="submit" class="btn-large btn-custom waves-effect waves-light">Swap</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        {% if error %}
+          <div class="col s12">
+            <p class="error-text center">{{ error }}</p>
+          </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div id="loading">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-orange">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    // Image preview for source
+    document.getElementById('source_image').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('source-preview');
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      } else {
+        preview.src = "{{ url_for('static', filename='images/white_bg.jpg') }}";
+      }
+      const fileName = this.value.split('\\').pop();
+      this.nextElementSibling.querySelector('input').value = fileName;
+    });
+
+    // Image preview for destination
+    document.getElementById('destination_image').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('destination-preview');
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      } else {
+        preview.src = "{{ url_for('static', filename='images/white_bg.jpg') }}";
+      }
+      const fileName = this.value.split('\\').pop();
+      this.nextElementSibling.querySelector('input').value = fileName;
+    });
+
+    // Show loading spinner on form submit
+    document.getElementById('upload-form').addEventListener('submit', function() {
+      document.getElementById('loading').style.display = 'flex';
+    });
+  </script>
+</body>
+</html>
